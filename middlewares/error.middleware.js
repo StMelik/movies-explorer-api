@@ -1,4 +1,4 @@
-const { ERRORS } = require('../utils/constants')
+const { ERRORS } = require('../utils/constants');
 
 module.exports = (err, _, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -6,4 +6,4 @@ module.exports = (err, _, res, next) => {
 
   res.status(statusCode).send({ message });
   next();
-}
+};

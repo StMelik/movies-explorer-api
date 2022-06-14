@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const { ERRORS } = require('../utils/constants')
+const { ERRORS } = require('../utils/constants');
+const { schemaConfig } = require('../utils/configs');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -10,9 +11,9 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator(email) {
-        return validator.isEmail(email)
-      }
-    }
+        return validator.isEmail(email);
+      },
+    },
   },
 
   password: {
@@ -27,21 +28,19 @@ const userSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 30,
   },
-}, { versionKey: false });
+}, schemaConfig);
 
 function findUserByCredentials(email, password) {
   return this.findOne({ email }).select('+password')
-    .then((user) => {
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new Error(ERRORS.USER.AUTH));
-          }
+    .then((user) => bcrypt.compare(password, user.password)
+      .then((matched) => {
+        if (!matched) {
+          return Promise.reject(new Error(ERRORS.USER.AUTH));
+        }
 
-          return user;
-        });
-    });
-};
+        return user;
+      }));
+}
 
 userSchema.statics.findUserByCredentials = findUserByCredentials;
 

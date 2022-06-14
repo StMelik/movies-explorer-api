@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const validator = require('validator')
-const configURLValidator = require('../utils/configURLValidator')
+const validator = require('validator');
+const { urlValidatorConfig, schemaConfig } = require('../utils/configs');
 
 const movieScheme = new mongoose.Schema({
   country: {
@@ -33,8 +33,8 @@ const movieScheme = new mongoose.Schema({
     required: true,
     validate: {
       validator(imageURL) {
-        return validator.isURL(imageURL, configURLValidator)
-      }
+        return validator.isURL(imageURL, urlValidatorConfig);
+      },
     },
   },
 
@@ -43,8 +43,8 @@ const movieScheme = new mongoose.Schema({
     required: true,
     validate: {
       validator(imageURL) {
-        return validator.isURL(imageURL, configURLValidator)
-      }
+        return validator.isURL(imageURL, urlValidatorConfig);
+      },
     },
   },
 
@@ -53,8 +53,8 @@ const movieScheme = new mongoose.Schema({
     required: true,
     validate: {
       validator(imageURL) {
-        return validator.isURL(imageURL, configURLValidator)
-      }
+        return validator.isURL(imageURL, urlValidatorConfig);
+      },
     },
   },
 
@@ -77,6 +77,6 @@ const movieScheme = new mongoose.Schema({
     type: String,
     required: true,
   },
-}, { versionKey: false });
+}, schemaConfig);
 
 module.exports = mongoose.model('movie', movieScheme);

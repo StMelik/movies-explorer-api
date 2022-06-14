@@ -1,53 +1,53 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { secretKey } = require('../utils/constants')
-const { ERRORS } = require('../utils/constants')
-const BadRequestError = require('../utils/errors/BadRequest')
-const NotFoundError = require('../utils/errors/NotFound')
-const ConflictError = require('../utils/errors/Conflict')
-const UnauthorizedError = require('../utils/errors/Unauthorized')
+const { ERRORS, secretKey } = require('../utils/constants');
+const { jwtConfig, updateControllerConfig } = require('../utils/configs');
+const BadRequestError = require('../utils/errors/BadRequest');
+const NotFoundError = require('../utils/errors/NotFound');
+const ConflictError = require('../utils/errors/Conflict');
+const UnauthorizedError = require('../utils/errors/Unauthorized');
 
 const getUserInfo = (req, res, next) => {
-  const userId = req.user._id
+  const userId = req.user._id;
 
   User.findById(userId)
-    .then(user => {
+    .then((user) => {
       if (!user) {
-        throw new NotFoundError(ERRORS.USER.FOUND)
+        throw new NotFoundError(ERRORS.USER.FOUND);
       }
 
-      res.send(user)
+      res.send(user);
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError(ERRORS.USER.ID));
         return;
       }
       next(err);
-    })
+    });
 };
 
 const updateUserInfo = (req, res, next) => {
-  const userId = req.user._id
-  const { email, name } = req.body
+  const userId = req.user._id;
+  const { email, name } = req.body;
 
   if (!email || !name) {
     next(new NotFoundError(ERRORS.USER.INCORRECT_UPDATE));
     return;
   }
 
-  User.findByIdAndUpdate(userId, { email, name }, { new: true, runValidators: true })
-    .then(user => {
-      res.send(user)
+  User.findByIdAndUpdate(userId, { email, name }, updateControllerConfig)
+    .then((user) => {
+      res.send(user);
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(ERRORS.USER.INCORRECT_UPDATE));
         return;
       }
       next(err);
-    })
+    });
 };
 
 const createUser = (req, res, next) => {
@@ -59,18 +59,18 @@ const createUser = (req, res, next) => {
   }
 
   bcrypt.hash(password, 10)
-    .then(hash => User.create({
+    .then((hash) => User.create({
       email,
       password: hash,
-      name
+      name,
     }))
-    .then(user => {
+    .then((user) => {
       res.send({
         email: user.email,
         name: user.name,
-      })
+      });
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(ERRORS.USER.INCORRECT_CREATE));
         return;
@@ -82,7 +82,7 @@ const createUser = (req, res, next) => {
       }
 
       next(err);
-    })
+    });
 };
 
 const login = (req, res, next) => {
@@ -94,16 +94,16 @@ const login = (req, res, next) => {
   }
 
   User.findUserByCredentials(email, password)
-    .then(user => {
+    .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
         secretKey,
-        { expiresIn: '7d' },
-      )
+        jwtConfig,
+      );
 
-      res.send({ token })
+      res.send({ token });
     })
-    .catch(err => next(new UnauthorizedError(err.message)))
+    .catch((err) => next(new UnauthorizedError(err.message)));
 };
 
 module.exports = {

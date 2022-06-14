@@ -1,11 +1,12 @@
 const ERRORS = {
   DEFAULT: 'Произошла ошибка.',
+  AUTH: 'Необходима авторизация',
 
   MOVIE: {
     INCORRECT: 'Переданы некорректные данные при сохранении фильма.',
     FOUND: 'Фильм не найден.',
     PERMISSIONS: 'У вас недостаточно прав доступа.',
-    ID: 'Передан некорректный id фильма.'
+    ID: 'Передан некорректный id фильма.',
   },
 
   USER: {
@@ -17,11 +18,11 @@ const ERRORS = {
     EXISTS: 'Такой пользователь уже существует!',
     AUTH: 'Неправильные почта или пароль',
   },
-}
+};
 
-const secretKey = 'secret-key'
+const secretKey = 'secret-key';
 
 module.exports = {
   secretKey,
-  ERRORS
-}
+  ERRORS,
+};

@@ -3,4 +3,4 @@ module.exports = class Forbidden extends Error {
     super(message);
     this.statusCode = 403;
   }
-}
+};
