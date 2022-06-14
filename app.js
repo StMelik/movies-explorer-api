@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
 const routes = require('./routes');
+const error = require('./middlewares/error')
 
 const { PORT = 3000 } = process.env;
 
@@ -20,6 +21,8 @@ app.use((req, res, next) => {
 })
 
 app.use(routes);
+
+app.use(error);
 
 app.listen(PORT, () => {
   console.log(`Сервер работает на ${PORT} порту`);
