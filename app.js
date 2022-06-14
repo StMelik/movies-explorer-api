@@ -5,12 +5,15 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const routes = require('./routes');
+const cors = require('./middlewares/cors.middleware');
 const error = require('./middlewares/error.middleware');
 const { requestLogger, errorLogger } = require('./middlewares/logger.middleware')
 
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+app.use(cors);
 
 app.use(bodyParser.json());
 
