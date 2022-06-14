@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
-const configURLValidator = require('./utils/configURLValidator')
+const configURLValidator = require('../utils/configURLValidator')
 
 const movieScheme = new mongoose.Schema({
   country: {
@@ -64,6 +64,7 @@ const movieScheme = new mongoose.Schema({
   },
 
   movieId: {
+    type: String,
     required: true,
   },
 
