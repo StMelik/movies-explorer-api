@@ -3,6 +3,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const ERRORS = {
   DEFAULT: 'Произошла ошибка.',
   AUTH: 'Необходима авторизация',
+  MANY_REQUEST: 'Слишком много запросов, повторите попытку позже.',
 
   MOVIE: {
     INCORRECT: 'Переданы некорректные данные при сохранении фильма.',
