@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const routes = require('./routes');
+const { addressMongoDB } = require('./utils/constants');
 const cors = require('./middlewares/cors.middleware');
 const error = require('./middlewares/error.middleware');
 const limiter = require('./middlewares/limiter.middleware');
@@ -20,7 +21,7 @@ app.use(limiter);
 
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+mongoose.connect(addressMongoDB);
 
 app.use(helmet());
 
