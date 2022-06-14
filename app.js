@@ -12,14 +12,6 @@ app.use(bodyParser.json());
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '62a7c94a0862dc4aab7ec762',
-  };
-
-  next();
-});
-
 app.use(routes);
 
 app.use(error);
