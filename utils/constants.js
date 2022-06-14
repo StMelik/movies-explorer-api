@@ -1,3 +1,5 @@
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const ERRORS = {
   DEFAULT: 'Произошла ошибка.',
   AUTH: 'Необходима авторизация',
@@ -20,7 +22,7 @@ const ERRORS = {
   },
 };
 
-const secretKey = 'secret-key';
+const secretKey = NODE_ENV === 'production' ? JWT_SECRET : 'secret-key';
 
 module.exports = {
   secretKey,
