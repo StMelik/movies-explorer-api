@@ -7,7 +7,7 @@ const { errors } = require('celebrate');
 const routes = require('./routes');
 const cors = require('./middlewares/cors.middleware');
 const error = require('./middlewares/error.middleware');
-const { requestLogger, errorLogger } = require('./middlewares/logger.middleware')
+const { requestLogger, errorLogger } = require('./middlewares/logger.middleware');
 
 const { PORT = 3000 } = process.env;
 
@@ -21,11 +21,11 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
 
 app.use(helmet());
 
-app.use(requestLogger)
+app.use(requestLogger);
 
 app.use(routes);
 
-app.use(errorLogger)
+app.use(errorLogger);
 
 app.use(errors());
 app.use(error);

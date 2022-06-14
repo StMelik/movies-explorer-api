@@ -10,12 +10,12 @@ module.exports = (req, _, next) => {
     return;
   }
 
-  const token = authorization.replace('Bearer ', '')
+  const token = authorization.replace('Bearer ', '');
 
-  let payload
+  let payload;
 
   try {
-    payload = jwt.verify(token, secretKey)
+    payload = jwt.verify(token, secretKey);
   } catch (err) {
     next(new UnauthorizedError(ERRORS.AUTH));
     return;
@@ -23,5 +23,5 @@ module.exports = (req, _, next) => {
 
   req.user = payload;
 
-  next()
-}
+  next();
+};

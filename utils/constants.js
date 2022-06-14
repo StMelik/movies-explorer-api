@@ -24,7 +24,7 @@ const ERRORS = {
 
 const secretKey = NODE_ENV === 'production' ? JWT_SECRET : 'secret-key';
 
-const regExpLink = /(https?:\/\/)(w{3}\.)?(((\d{1,3}\.){3}\d{1,3})|((\w-?)+\.(ru|com)))(:\d{2,5})?((\/.+)+)?\/?#?/
+const regExpLink = /(https?:\/\/)(w{3}\.)?(((\d{1,3}\.){3}\d{1,3})|((\w-?)+\.(ru|com)))(:\d{2,5})?((\/.+)+)?\/?#?/;
 
 module.exports = {
   secretKey,
