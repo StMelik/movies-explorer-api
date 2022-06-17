@@ -1,4 +1,4 @@
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET, BD } = process.env;
 
 const ERRORS = {
   DEFAULT: 'Произошла ошибка.',
@@ -26,13 +26,10 @@ const ERRORS = {
 
 const secretKey = NODE_ENV === 'production' ? JWT_SECRET : 'secret-key';
 
-const addressMongoDB = 'mongodb://localhost:27017/moviesdb';
-
-const regExpLink = /(https?:\/\/)(w{3}\.)?(((\d{1,3}\.){3}\d{1,3})|((\w-?)+\.(ru|com)))(:\d{2,5})?((\/.+)+)?\/?#?/;
+const addressMongoDB = NODE_ENV === 'production' ? BD : 'mongodb://localhost:27017/moviesdb';
 
 module.exports = {
   secretKey,
   ERRORS,
   addressMongoDB,
-  regExpLink,
 };

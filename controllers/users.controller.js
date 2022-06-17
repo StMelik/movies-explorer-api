@@ -13,19 +13,11 @@ const getUserInfo = (req, res, next) => {
 
   User.findById(userId)
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError(ERRORS.USER.FOUND);
-      }
+      if (!user) throw new NotFoundError(ERRORS.USER.FOUND)
 
       res.send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError(ERRORS.USER.ID));
-        return;
-      }
-      next(err);
-    });
+    .catch((err) => next(err));
 };
 
 const updateUserInfo = (req, res, next) => {
@@ -44,6 +36,11 @@ const updateUserInfo = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(ERRORS.USER.INCORRECT_UPDATE));
+        return;
+      }
+
+      if (err.code === 11000) {
+        next(new ConflictError(ERRORS.USER.EXISTS));
         return;
       }
       next(err);

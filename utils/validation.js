@@ -1,10 +1,19 @@
 const { celebrate, Joi } = require('celebrate');
-const { regExpLink } = require('./constants');
+const validator = require('validator');
+const { urlValidatorConfig } = require('./configs');
+
+const checkURL = (value, helpers) => {
+  const isValidURL = validator.isURL(value, urlValidatorConfig);
+
+  return isValidURL
+    ? value
+    : helpers.message('Invalid URL');
+};
 
 const validationProfile = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().email(),
-    name: Joi.string().min(2).max(30),
+    email: Joi.string().email().required(),
+    name: Joi.string().min(2).max(30).required(),
   }),
 });
 
@@ -30,13 +39,12 @@ const validationFilm = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().pattern(regExpLink),
-    trailerLink: Joi.string().required().pattern(regExpLink),
+    image: Joi.string().required().custom(checkURL),
+    trailerLink: Joi.string().required().custom(checkURL),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    thumbnail: Joi.string().required().pattern(regExpLink),
-    movieId: Joi.string().required(),
-    owner: Joi.string().length(24).hex().required(),
+    thumbnail: Joi.string().required().custom(checkURL),
+    movieId: Joi.number().required(),
   }),
 });
 
