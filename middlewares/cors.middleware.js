@@ -1,5 +1,6 @@
 const allowedCors = [
   'https://diplom.stmelik.ru',
+  'http://localhost:3001'
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,PATCH,POST,DELETE';
